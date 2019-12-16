@@ -3,6 +3,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using LearnNetMq.Core;
 using NetMQ;
+using Serilog;
+using Serilog.Core;
 
 namespace LearnNetMq.Cli
 {
@@ -10,6 +12,10 @@ namespace LearnNetMq.Cli
     {
         static void Main(string[] args)
         {
+            Log.Logger = new LoggerConfiguration()
+                .WriteTo.LiterateConsole()
+                .CreateLogger();
+
             NetMqVersion();
         }
 
@@ -20,14 +26,13 @@ namespace LearnNetMq.Cli
             var account = new Account(1, "Doron Somech", "112233", 0);
             PrintAccount(account);
             accountActioner.Start();
-            Console.WriteLine("Sending account to AccountActioner/Actor");
+            Log.Information("Sending account to AccountActioner/Actor");
             accountActioner.SendPayload(account,
                 new AccountAction(TransactionType.Credit, 15));
             account = accountActioner.GetPayLoad();
             PrintAccount(account);
             accountActioner.Stop();
-            Console.WriteLine();
-            Console.WriteLine("Sending account to AccountActioner/Actor");
+            Log.Information("Sending account to AccountActioner/Actor");
             accountActioner.SendPayload(account,
                 new AccountAction(TransactionType.Credit, 15));
             accountActioner.SendPayload(account,
@@ -40,9 +45,7 @@ namespace LearnNetMq.Cli
 
         static void PrintAccount(Account account)
         {
-            Console.WriteLine("Account now");
-            Console.WriteLine(account);
-            Console.WriteLine();
+            Log.Information("Account Now: {Account}", account);
         }
 
         static void OriginalVersion()
@@ -53,28 +56,28 @@ namespace LearnNetMq.Cli
             var task1 = Task.Run(() =>
             {
                 var threadId = Thread.CurrentThread.ManagedThreadId;
-                Console.WriteLine("Thread Id {0}, Account balance before: {1}",
+                Log.Information("Thread Id {0}, Account balance before: {1}",
                     threadId, account.Balance);
                 lock (syncLock)
                 {
-                    Console.WriteLine("Thread Id {0}, Adding 10 to balance",
+                    Log.Information("Thread Id {0}, Adding 10 to balance",
                         threadId);
                     account.Balance += 10;
-                    Console.WriteLine("Thread Id {0}, Account balance after: {1}",
+                    Log.Information("Thread Id {0}, Account balance after: {1}",
                         threadId, account.Balance);
                 }
             });
             var task2 = Task.Run(() =>
             {
                 var threadId = Thread.CurrentThread.ManagedThreadId;
-                Console.WriteLine("Thread Id {0}, Account balance before: {1}",
+                Log.Information("Thread Id {0}, Account balance before: {1}",
                     threadId, account.Balance);
                 lock (syncLock)
                 {
-                    Console.WriteLine("Thread Id {0}, Subtracting 4 from balance",
+                    Log.Information("Thread Id {0}, Subtracting 4 from balance",
                         threadId);
                     account.Balance -= 4;
-                    Console.WriteLine("Thread Id {0}, Account balance after: {1}",
+                    Log.Information("Thread Id {0}, Account balance after: {1}",
                         threadId, account.Balance);
                 }
             });

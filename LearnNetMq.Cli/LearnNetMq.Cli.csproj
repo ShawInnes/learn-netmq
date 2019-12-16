@@ -9,4 +9,9 @@
       <ProjectReference Include="..\LearnNetMq.Core\LearnNetMq.Core.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <PackageReference Include="Serilog" Version="2.9.0" />
+      <PackageReference Include="Serilog.Sinks.Literate" Version="3.0.0" />
+    </ItemGroup>
+
 </Project>

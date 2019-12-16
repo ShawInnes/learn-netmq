@@ -1,7 +1,7 @@
-using System;
 using NetMQ;
 using NetMQ.Sockets;
 using Newtonsoft.Json;
+using Serilog;
 
 namespace LearnNetMq.Core
 {
@@ -31,11 +31,11 @@ namespace LearnNetMq.Core
                 switch (command)
                 {
                     case NetMQActor.EndShimMessage:
-                        Console.WriteLine("Actor received EndShimMessage");
+                        Log.Information("Actor received EndShimMessage");
                         poller.Stop();
                         break;
                     case "AmendAccount":
-                        Console.WriteLine("Actor received AmendAccount message");
+                        Log.Information("Actor received AmendAccount message");
                         string accountJson = e.Socket.ReceiveFrameString();
                         Account account
                             = JsonConvert.DeserializeObject<Account>(accountJson);
@@ -43,8 +43,7 @@ namespace LearnNetMq.Core
                         AccountAction accountAction
                             = JsonConvert.DeserializeObject<AccountAction>(
                                 accountActionJson);
-                        Console.WriteLine("Incoming Account details are");
-                        Console.WriteLine(account);
+                        Log.Information("Incoming Account details: {Account}", account);
                         AmendAccount(account, accountAction);
                         shim.SendFrame(JsonConvert.SerializeObject(account));
                         break;
@@ -87,7 +86,7 @@ namespace LearnNetMq.Core
         {
             if (_actor == null)
                 return;
-            Console.WriteLine("About to send person to Actor");
+            Log.Information("About to send person to Actor");
             var message = new NetMQMessage();
             message.Append("AmendAccount");
             message.Append(JsonConvert.SerializeObject(account));
@@ -97,7 +96,11 @@ namespace LearnNetMq.Core
 
         public Account GetPayLoad()
         {
-            return JsonConvert.DeserializeObject<Account>(_actor.ReceiveFrameString());
+            var frameString = _actor.ReceiveFrameString();
+
+            Log.Information("FrameString: {FrameString}", frameString);
+
+            return JsonConvert.DeserializeObject<Account>(frameString);
         }
     }
 }
