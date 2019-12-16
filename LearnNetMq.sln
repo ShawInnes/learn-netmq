@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LearnNetMq.Cli", "LearnNetMq.Cli\LearnNetMq.Cli.csproj", "{FD4AA657-D0BC-4958-A2F3-F0395837B23B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LearnNetMq.Core", "LearnNetMq.Core\LearnNetMq.Core.csproj", "{08364788-A1FB-4A9B-A404-8F838BA6DD3E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FD4AA657-D0BC-4958-A2F3-F0395837B23B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FD4AA657-D0BC-4958-A2F3-F0395837B23B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FD4AA657-D0BC-4958-A2F3-F0395837B23B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FD4AA657-D0BC-4958-A2F3-F0395837B23B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{08364788-A1FB-4A9B-A404-8F838BA6DD3E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{08364788-A1FB-4A9B-A404-8F838BA6DD3E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{08364788-A1FB-4A9B-A404-8F838BA6DD3E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{08364788-A1FB-4A9B-A404-8F838BA6DD3E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
